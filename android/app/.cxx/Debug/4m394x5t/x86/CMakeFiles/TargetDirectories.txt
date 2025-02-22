@@ -1,0 +1,2 @@
+E:/flutter/math_solver/android/app/.cxx/Debug/4m394x5t/x86/CMakeFiles/edit_cache.dir
+E:/flutter/math_solver/android/app/.cxx/Debug/4m394x5t/x86/CMakeFiles/rebuild_cache.dir
