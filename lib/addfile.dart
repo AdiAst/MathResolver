@@ -3,23 +3,19 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 
 Future<void> saveJsonToFile() async {
-  // Data yang akan disimpan dalam JSON
   Map<String, dynamic> data = {
-    "nama": "Flutter Developer",
-    "umur": 25
+    "nama": "Luas Segitiga",
+    "deskripsi": "lorem50",
+    "rumus": "var:a + var:b"
   };
 
-  // Ubah data menjadi format JSON string
   String jsonString = jsonEncode(data);
 
-  // Dapatkan directory penyimpanan eksternal
   Directory? directory = await getExternalStorageDirectory();
   
   if (directory != null) {
-    // Path ke file JSON
     String filePath = '${directory.path}/data.json';
 
-    // Tulis file
     File file = File(filePath);
     await file.writeAsString(jsonString);
 
@@ -28,3 +24,18 @@ Future<void> saveJsonToFile() async {
     print('Gagal mendapatkan direktori penyimpanan.');
   }
 }
+Future<String> readJsonFromFile() async {
+  Directory? directory = await getExternalStorageDirectory();
+  if (directory != null) {
+    String filePath = '${directory.path}/data.json';
+    File file = File(filePath);
+    if (await file.exists()) {
+      return await file.readAsString();
+    } else {
+      return 'File tidak ditemukan';
+    }
+  } else {
+    return 'Gagal mendapatkan direktori penyimpanan';
+  }
+}
+

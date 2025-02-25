@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:math_solver/addfile.dart';
 import 'package:math_solver/detail_masalah.dart';
 import 'package:math_solver/model/rumus.dart';
 
@@ -15,26 +16,41 @@ class HalamanUtama extends StatelessWidget {
           children: <Widget>[
             Container(
               margin: const EdgeInsets.all(46),
-              child: const Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Math Solver',
-                    style: TextStyle(
-                      fontSize: 30.0,
-                      color: Color.fromARGB(255, 63, 63, 63),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Aplikasi yang dirancang khusus untuk membantu Anda menyelesaikan berbagai jenis soal matematika, dari yang paling sederhana hingga yang paling kompleks.',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      color: Color.fromARGB(255, 63, 63, 63),
-                    ),
-                  ),
-                ],
+              const Text(
+                'Math Solver',
+                style: TextStyle(
+                  fontSize: 30.0,
+                  color: Color.fromARGB(255, 63, 63, 63),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Aplikasi yang dirancang khusus untuk membantu Anda menyelesaikan berbagai jenis soal matematika, dari yang paling sederhana hingga yang paling kompleks.',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Color.fromARGB(255, 63, 63, 63),
+                ),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  await saveJsonToFile();
+                },
+                child: const Text('Simpan JSON ke File Manager'),
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () async {
+                  String content = await readJsonFromFile();
+                  print(content);
+                },
+                child: Text('Tampilkan Isi JSON'),
+              ),
+            ],
               ),
             ),
             const SizedBox(height: 20),
