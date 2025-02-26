@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:dart_eval/dart_eval.dart';
 import 'package:path_provider/path_provider.dart';
 
 Future<void> saveJsonToFile() async {
@@ -37,5 +38,9 @@ Future<String> readJsonFromFile() async {
   } else {
     return 'Gagal mendapatkan direktori penyimpanan';
   }
+}
+
+testEval(String rumus){
+  return eval(rumus);
 }
 

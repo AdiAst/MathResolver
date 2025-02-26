@@ -50,6 +50,12 @@ class HalamanUtama extends StatelessWidget {
                 },
                 child: Text('Tampilkan Isi JSON'),
               ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () =>  print(testEval("(2+5) * 4 + (4 - 2)")) ,
+                  
+                child: Text('Test Eval'),
+              ),
             ],
               ),
             ),
