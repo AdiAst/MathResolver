@@ -5,10 +5,21 @@ import 'package:path_provider/path_provider.dart';
 
 Future<void> saveJsonToFile() async {
   Map<String, dynamic> data = {
-    "nama": "Luas Segitiga",
-    "deskripsi": "lorem50",
-    "rumus": "var:a + var:b"
-  };
+  "daftarMasalah": [
+    {
+      "id": 1, 
+      "nama": "Luas Segitiga",
+      "deskripsi": "lorem50",
+      "rumus": "var:a * var:b / 2"
+    },
+    {
+      "id": 2, 
+      "nama": "Luas Persegi",
+      "deskripsi": "lorem50",
+      "rumus": "var:a * var:b"
+    }
+  ]
+};
 
   String jsonString = jsonEncode(data);
 
