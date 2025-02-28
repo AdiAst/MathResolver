@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:math_solver/model/rumus.dart';
+
+import 'dart:core';
 
 class DetailMasalah extends StatefulWidget {
-  final Rumus rumus;
+  final Map<String, dynamic> rumus;
 
   const DetailMasalah({super.key, required this.rumus});
 
@@ -11,135 +12,74 @@ class DetailMasalah extends StatefulWidget {
 }
 
 class _DetailMasalahState extends State<DetailMasalah> {
-  final Map<String, double> _inputValues = {};
+  final Map<String, TextEditingController> controllers = {};
+  List<String> variables = [];
+  double hasil = 0;
 
-  void calculateHasil() {
-    // setState(() {
-    //   widget.rumus.hitung(_inputValues);
-    // });
+  @override
+  void initState() {
+    super.initState();
+    extractVariables();
+  }
 
-    // showDialog(
-    //   context: context,
-    //   builder: (BuildContext context) {
-    //     return AlertDialog(
-    //       content: Column(
-    //         mainAxisSize: MainAxisSize.min,
-    //         children: [
-    //           Text(
-    //             '${widget.rumus.hasil}',
-    //             style: const TextStyle(
-    //               fontSize: 50,
-    //               fontWeight: FontWeight.bold,
-    //               color: Color.fromARGB(255, 224, 175, 160),
-    //             ),
-    //             textAlign: TextAlign.center,
-    //           ),
-    //           const SizedBox(height: 10),
-    //           const Text(
-    //             'adalah jawaban dari masalah ini ଘ(੭ˊᵕˋ)੭',
-    //             style: TextStyle(
-    //               fontSize: 14,
-    //               fontStyle: FontStyle.italic,
-    //               color: Colors.grey,
-    //             ),
-    //             textAlign: TextAlign.center,
-    //           ),
-    //           const SizedBox(height: 20),
-    //           ElevatedButton(
-    //             onPressed: () {
-    //               Navigator.of(context).pop();
-    //             },
-    //             style: ElevatedButton.styleFrom(
-    //               backgroundColor: const Color.fromARGB(255, 224, 175, 160),
-    //               foregroundColor: Colors.white,
-    //               padding: const EdgeInsets.symmetric(
-    //                   vertical: 12, horizontal: 24),
-    //               shape: RoundedRectangleBorder(
-    //                 borderRadius: BorderRadius.circular(12),
-    //               ),
-    //             ),
-    //             child: const Text(
-    //               'Tutup',
-    //               style: TextStyle(fontSize: 16),
-    //             ),
-    //           ),
-    //         ],
-    //       ),
-    //     );
-    //   },
-    // );
+  void extractVariables() {
+    final regex = RegExp(r'var:(\w+)');
+    variables = regex
+        .allMatches(widget.rumus['rumus'])
+        .map((match) => match.group(1)!)
+        .toList();
+    
+    for (var variable in variables) {
+      controllers[variable] = TextEditingController();
+    }
+  }
+
+  void calculateResult() {
+    String expression = widget.rumus['rumus'];
+    Map<String, double> values = {};
+
+    for (var variable in variables) {
+      values[variable] = double.tryParse(controllers[variable]!.text) ?? 0;
+      expression = expression.replaceAll('var:$variable', values[variable].toString());
+    }
+
+    try {
+      hasil = evaluateExpression(expression);
+      setState(() {});
+    } catch (e) {
+      hasil = double.nan;
+    }
+  }
+
+  double evaluateExpression(String expression) {
+    // Sederhana, hanya mendukung +, -, *, /
+    return double.parse(expression.replaceAll(' ', ''));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 223, 223, 223),
-      resizeToAvoidBottomInset: true, 
-      // body: SafeArea(
-      //   child: SingleChildScrollView(  
-      //     padding: const EdgeInsets.all(20),
-      //     child: Column(
-      //       crossAxisAlignment: CrossAxisAlignment.stretch,
-      //       children: <Widget>[
-      //         Stack(
-      //           children: <Widget>[
-      //             IconButton(
-      //               icon: const Icon(Icons.arrow_back),
-      //               onPressed: () {
-      //                 Navigator.pop(context);
-      //               },
-      //             ),
-      //           ],
-      //         ),
-      //         const SizedBox(height: 16),
-      //         Center(
-      //           child: Container(
-      //             width: 150,
-      //             height: 150,
-      //             decoration: BoxDecoration(
-      //               borderRadius: BorderRadius.circular(16),
-      //               image: DecorationImage(
-      //                 image: AssetImage(widget.rumus.gambar),
-      //                 fit: BoxFit.contain,
-      //               ),
-      //             ),
-      //           ),
-      //         ),
-      //         const SizedBox(height: 16),
-      //         Text(
-      //           widget.rumus.nama,
-      //           textAlign: TextAlign.center,
-      //           style: const TextStyle(
-      //             fontSize: 30.0,
-      //             fontWeight: FontWeight.bold,
-      //           ),
-      //         ),
-      //         const SizedBox(height: 20),
-      //         widget.rumus.inputBuilder((params) {
-      //           setState(() {
-      //             _inputValues.addAll(params);
-      //           });
-      //         }),
-      //         const SizedBox(height: 20),
-      //         ElevatedButton(
-      //           onPressed: calculateHasil,
-      //           style: ElevatedButton.styleFrom(
-      //             backgroundColor: const Color.fromARGB(255, 224, 175, 160),
-      //             foregroundColor: Colors.white,
-      //             padding: const EdgeInsets.symmetric(vertical: 22),
-      //             shape: RoundedRectangleBorder(
-      //               borderRadius: BorderRadius.circular(12),
-      //             ),
-      //             textStyle: const TextStyle(
-      //               fontSize: 18,
-      //             ),
-      //           ),
-      //           child: const Text("Hitung"),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
+      appBar: AppBar(title: Text(widget.rumus['nama'])),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            for (var variable in variables)
+              TextField(
+                controller: controllers[variable],
+                decoration: InputDecoration(labelText: variable),
+                keyboardType: TextInputType.number,
+              ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: calculateResult,
+              child: const Text("Hitung"),
+            ),
+            const SizedBox(height: 20),
+            Text("Hasil: $hasil", style: const TextStyle(fontSize: 20)),
+          ],
+        ),
+      ),
     );
   }
 }

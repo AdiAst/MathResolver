@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:math_solver/addfile.dart';
 import 'package:math_solver/detail_masalah.dart';
 import 'package:math_solver/model/rumus.dart';
 import 'package:path_provider/path_provider.dart';
@@ -62,7 +63,15 @@ class _HalamanUtamaState extends State<HalamanUtama> {
                       color: Color.fromARGB(255, 63, 63, 63),
                     ),
                   ),
+                  const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () async {
+                  await saveJsonToFile();
+                },
+                child: const Text('Simpan JSON ke File Manager'),
+              ),
                 ],
+                
               ),
             ),
             const SizedBox(height: 20),
@@ -92,9 +101,12 @@ class DaftarRumus extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) {
-                  return DetailMasalah(rumus: rumus);
-                },
+                builder: (context) => DetailMasalah(rumus: {
+                  'id': rumus.id,
+                  'nama': rumus.nama,
+                  'deskripsi': rumus.deskripsi,
+                  'rumus': rumus.rumus,
+                }),
               ),
             );
           },

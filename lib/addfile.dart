@@ -16,7 +16,13 @@ Future<void> saveJsonToFile() async {
       "id": 2, 
       "nama": "Luas Persegi",
       "deskripsi": "lorem50",
-      "rumus": "var:a * var:b"
+      "rumus": "var:a"
+    },
+    {
+      "id": 3, 
+      "nama": "keliling Persegi",
+      "deskripsi": "sss",
+      "rumus": "var:a var:b var:c"
     }
   ]
 };
