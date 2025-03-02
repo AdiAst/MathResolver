@@ -1,3 +1,4 @@
+import 'package:dart_eval/dart_eval.dart';
 import 'package:flutter/material.dart';
 
 import 'dart:core';
@@ -44,17 +45,14 @@ class _DetailMasalahState extends State<DetailMasalah> {
     }
 
     try {
-      hasil = evaluateExpression(expression);
+      hasil = eval(expression);
       setState(() {});
     } catch (e) {
       hasil = double.nan;
     }
   }
 
-  double evaluateExpression(String expression) {
-    // Sederhana, hanya mendukung +, -, *, /
-    return double.parse(expression.replaceAll(' ', ''));
-  }
+  
 
   @override
   Widget build(BuildContext context) {
