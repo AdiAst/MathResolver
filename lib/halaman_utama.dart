@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:math_solver/addfile.dart';
 import 'package:math_solver/detail_masalah.dart';
 import 'package:math_solver/model/rumus.dart';
+import 'package:math_solver/tambah_masalah.dart';
 import 'package:path_provider/path_provider.dart';
 
 
@@ -70,6 +71,19 @@ class _HalamanUtamaState extends State<HalamanUtama> {
                 },
                 child: const Text('Simpan JSON ke File Manager'),
               ),
+             const SizedBox(height: 20),
+ElevatedButton(
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TambahMasalah(),
+      ),
+    );
+  },
+  child: const Text('Tambah Masalah'),
+),
+
                 ],
                 
               ),
