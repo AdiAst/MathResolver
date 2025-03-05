@@ -24,7 +24,9 @@ class _HalamanUtamaState extends State<HalamanUtama> {
     super.initState();
     loadJsonData();
   }
-
+  Future<void> refreshJsonData() async {
+    loadJsonData();
+  }
   Future<void> loadJsonData() async {
     String content = await readJsonFromFile();
     Map<String, dynamic> jsonData = jsonDecode(content);
@@ -66,10 +68,10 @@ class _HalamanUtamaState extends State<HalamanUtama> {
                   ),
                   const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () async {
-                  await saveJsonToFile();
+                onPressed: ()  {
+                   print(refreshJsonData());
                 },
-                child: const Text('Simpan JSON ke File Manager'),
+                child: const Text('Reload'),
               ),
              const SizedBox(height: 20),
 ElevatedButton(

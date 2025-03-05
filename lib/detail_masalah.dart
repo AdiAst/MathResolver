@@ -43,9 +43,10 @@ class _DetailMasalahState extends State<DetailMasalah> {
       values[variable] = double.tryParse(controllers[variable]!.text) ?? 0;
       expression = expression.replaceAll('var:$variable', values[variable].toString());
     }
-
+print(expression);
     try {
       hasil = eval(expression);
+print(hasil);
       setState(() {});
     } catch (e) {
       hasil = double.nan;

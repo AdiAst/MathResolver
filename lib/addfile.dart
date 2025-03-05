@@ -48,7 +48,7 @@ Future<String> readJsonFromFile() async {
     String filePath = '${directory.path}/data.json';
     File file = File(filePath);
     if (await file.exists()) {
-      return await file.readAsString();
+      return await jsonDecode(await file.readAsString())["daftarMasalah"].cast<Map<String, dynamic>>();
     } else {
       return 'File tidak ditemukan';
     }

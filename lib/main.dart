@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Math Solver',
       theme: ThemeData(),
-      home: const HalamanUtama(),
+      home:  HalamanUtama(),
     );
   }
 }
